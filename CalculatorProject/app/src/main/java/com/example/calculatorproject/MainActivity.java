@@ -3,6 +3,7 @@ package com.example.calculatorproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -57,56 +58,77 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Button button = (Button) v;
         CharSequence text = button.getText();
-        if (text1.getText().charAt(0) == '0')
+        if (text1.getText().charAt(0) == '0' && button.getText() != "0")
             text1.setText(null);
         if ("0123456789+—×÷".contains(text))
             text1.append(text);
         if (button == buttonClear)
             text1.setText("0");
         if (button == buttonEquals) {
-            String textString = "" + text1.getText();
-            StringTokenizer tokenizer = new StringTokenizer(textString, "+—÷×", true);
-            ArrayList<String> arr = new ArrayList<>();
-            while (tokenizer.hasMoreTokens()) {
-                arr.add(tokenizer.nextToken());
+            try {
+                String textString = "" + text1.getText();
+                StringTokenizer tokenizer = new StringTokenizer(textString, "+—÷×", true);
+                ArrayList<String> arr = new ArrayList<>();
+                while (tokenizer.hasMoreTokens()) {
+                    arr.add(tokenizer.nextToken());
+                }
+                int index = 1;
+                while(index > 0) {
+                    if (arr.get(index).equals("+")) {
+                        answer = "" + onAdd(arr.get(index - 1), arr.get(index + 1));
+                        arr.set(index - 1, Double.toString(onAdd(arr.get(index - 1), arr.get(index + 1))));
+                        arr.remove(index);
+                        arr.remove(index+1);
+                        index--;
+                    }
+                    if (arr.get(index).equals("—")) {
+                        answer = "" + onSubtract(arr.get(index - 1), arr.get(index + 1));
+                        arr.set(index - 1, Double.toString(onSubtract(arr.get(index - 1), arr.get(index + 1))));
+                        arr.remove(index);
+                        arr.remove(index+1);
+                        index--;
+                    }
+                    if (arr.get(index).equals("×")) {
+                        answer = "" + onMultiply(arr.get(index - 1), arr.get(index + 1));
+                        arr.set(index - 1, Double.toString(onMultiply(arr.get(index - 1), arr.get(index + 1))));
+                        arr.remove(index);
+                        arr.remove(index+1);
+                        index--;
+                    }
+                    if (arr.get(index).equals("÷")) {
+                        answer = "" + onDivide(arr.get(index - 1), arr.get(index + 1));
+                        arr.set(index - 1, (onDivide(arr.get(index - 1), arr.get(index + 1))));
+                        arr.remove(index);
+                        arr.remove(index+1);
+                        index--;
+                    }
+                    index++;
+                    Log.d("MY ANSWER","" +arr);
+                }
+                text1.setText(answer);
+            }catch(Exception e){
+                text1.setText("Error");
             }
-            for (int x = 0; x < arr.size(); x++){
-                if (arr.get(x).equals("+")) {
-                    answer = "" + onAdd(arr.get(x-1), arr.get(x+1));
-                    arr.set(x+1,Integer.toString(onAdd(arr.get(x-1), arr.get(x+1))));
-                }
-                if (arr.get(x).equals("—")) {
-                    answer = "" + onSubtract(arr.get(x-1), arr.get(x+1));
-                    arr.set(x+1,Integer.toString(onAdd(arr.get(x-1), arr.get(x+1))));
-                }
-                if (arr.get(x).equals("×")) {
-                    answer = "" + onMultiply(arr.get(x-1), arr.get(x+1));
-                    arr.set(x+1,Integer.toString(onAdd(arr.get(x-1), arr.get(x+1))));
-                }
-                if (arr.get(x).equals("÷")) {
-                    answer = "" + onDivide(arr.get(x-1), arr.get(x+1));
-                    arr.set(x+1,Integer.toString(onAdd(arr.get(x-1), arr.get(x+1))));
-                }
-            }
-            text1.setText(answer);
         }
     }
-    public int onAdd(String first, String second) {
-            int first1 = Integer.parseInt(first);
-            int second1 =Integer.parseInt(second);
+    public double onAdd(String first, String second) {
+            double first1 = Double.parseDouble(first);
+            double second1 =Double.parseDouble(second);
             return first1+second1;
     }
-    public int onSubtract(String first, String second){
-            int first1 = Integer.parseInt(first);
-            int second1 =Integer.parseInt(second);
+    public double onSubtract(String first, String second){
+            double first1 = Double.parseDouble(first);
+            double second1 = Double.parseDouble(second);
             return first1-second1;
     }
-    public int onMultiply(String first, String second){
-            int first1 = Integer.parseInt(first);
-            int second1 =Integer.parseInt(second);
+    public double onMultiply(String first, String second){
+            double first1 = Double.parseDouble(first);
+            double second1 = Double.parseDouble(second);
             return first1*second1;    }
-    public double onDivide(String first, String second){
-            int first1 = Integer.parseInt(first);
-            int second1 =Integer.parseInt(second);
-            return first1/second1;    }
+    public String onDivide(String first, String second){
+            double first1 = Double.parseDouble(first);
+            double second1 =Double.parseDouble(second);
+            if(second1 == 0)
+                    return "Divide by 0 error";
+            return Double.toString(first1/second1);    }
 }
