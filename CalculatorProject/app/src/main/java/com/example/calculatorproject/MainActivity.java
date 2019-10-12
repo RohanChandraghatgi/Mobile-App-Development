@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonPlus,buttonMinus,buttonTimes, buttonDivide,buttonEquals,buttonClear;
+    Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonPlus,buttonMinus,buttonTimes, buttonDivide,buttonEquals,buttonClear,buttonExp;
     TextView text1;
     String answer;
     @Override
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDivide = findViewById(R.id.button_divide_id);
         buttonEquals = findViewById(R.id.button_equals_id);
         buttonClear = findViewById(R.id.button_clear_id);
+        buttonExp = findViewById(R.id.button_exp_id);
         text1 = findViewById(R.id.textView_display_id);
 
         button1.setOnClickListener(this);
@@ -53,61 +54,87 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDivide.setOnClickListener(this);
         buttonClear.setOnClickListener(this);
         buttonEquals.setOnClickListener(this);
-
+        buttonExp.setOnClickListener(this);
     }
     public void onClick(View v) {
         Button button = (Button) v;
         CharSequence text = button.getText();
         if (text1.getText().charAt(0) == '0' && button.getText() != "0")
             text1.setText(null);
-        if ("0123456789+—×÷".contains(text))
+        if ("0123456789+—×÷^".contains(text))
             text1.append(text);
         if (button == buttonClear)
             text1.setText("0");
         if (button == buttonEquals) {
             try {
                 String textString = "" + text1.getText();
-                StringTokenizer tokenizer = new StringTokenizer(textString, "+—÷×", true);
+                StringTokenizer tokenizer = new StringTokenizer(textString, "+—÷×^", true);
                 ArrayList<String> arr = new ArrayList<>();
                 while (tokenizer.hasMoreTokens()) {
                     arr.add(tokenizer.nextToken());
                 }
-                int index = 1;
-                while(index > 0) {
-                    if (arr.get(index).equals("+")) {
-                        answer = "" + onAdd(arr.get(index - 1), arr.get(index + 1));
-                        arr.set(index - 1, Double.toString(onAdd(arr.get(index - 1), arr.get(index + 1))));
+                int index = 0;
+                while(arr.size() > 1 && index < arr.size()) {
+                    if(arr.get(index).equals("^")) {
+                        answer = "" + onExp(arr.get(index - 1), arr.get(index + 1));
+                        arr.set(index - 1, Double.toString(onExp(arr.get(index - 1), arr.get(index + 1))));
+                        arr.remove(index + 1);
                         arr.remove(index);
-                        arr.remove(index+1);
-                        index--;
-                    }
-                    if (arr.get(index).equals("—")) {
-                        answer = "" + onSubtract(arr.get(index - 1), arr.get(index + 1));
-                        arr.set(index - 1, Double.toString(onSubtract(arr.get(index - 1), arr.get(index + 1))));
-                        arr.remove(index);
-                        arr.remove(index+1);
-                        index--;
-                    }
-                    if (arr.get(index).equals("×")) {
-                        answer = "" + onMultiply(arr.get(index - 1), arr.get(index + 1));
-                        arr.set(index - 1, Double.toString(onMultiply(arr.get(index - 1), arr.get(index + 1))));
-                        arr.remove(index);
-                        arr.remove(index+1);
-                        index--;
-                    }
-                    if (arr.get(index).equals("÷")) {
-                        answer = "" + onDivide(arr.get(index - 1), arr.get(index + 1));
-                        arr.set(index - 1, (onDivide(arr.get(index - 1), arr.get(index + 1))));
-                        arr.remove(index);
-                        arr.remove(index+1);
                         index--;
                     }
                     index++;
-                    Log.d("MY ANSWER","" +arr);
+                    Log.d("MY ANSWER", "" + arr);
                 }
-                text1.setText(answer);
-            }catch(Exception e){
-                text1.setText("Error");
+                index = 0;
+                while (arr.size() > 1 && index < arr.size()) {
+                    if (arr.get(index).equals("×")) {
+                        answer = "" + onMultiply(arr.get(index - 1), arr.get(index + 1));
+                        arr.set(index - 1, Double.toString(onMultiply(arr.get(index - 1), arr.get(index + 1))));
+                        arr.remove(index + 1);
+                        arr.remove(index);
+                        index--;
+                    }
+                    index++;
+                }
+                index = 0;
+                while (arr.size() > 1 && index < arr.size()) {
+                    if (arr.get(index).equals("÷")) {
+                        answer = "" + onDivide(arr.get(index - 1), arr.get(index + 1));
+                        arr.set(index - 1, (onDivide(arr.get(index - 1), arr.get(index + 1))));
+                        arr.remove(index + 1);
+                        arr.remove(index);
+                        index--;
+                    }
+                    index++;
+                }
+                index = 0;
+                while (arr.size() > 1 && index < arr.size()) {
+                    if (arr.get(index).equals("+")) {
+                        answer = "" + onAdd(arr.get(index - 1), arr.get(index + 1));
+                        arr.set(index - 1, Double.toString(onAdd(arr.get(index - 1), arr.get(index + 1))));
+                        arr.remove(index + 1);
+                        arr.remove(index);
+                        index--;
+                    }
+                    index++;
+                }
+                index = 0;
+                while(arr.size() > 1 && index < arr.size()) {
+                    if (arr.get(index).equals("—")) {
+                        answer = "" + onSubtract(arr.get(index - 1), arr.get(index + 1));
+                        arr.set(index - 1, Double.toString(onSubtract(arr.get(index - 1), arr.get(index + 1))));
+                        arr.remove(index + 1);
+                        arr.remove(index);
+                        index--;
+                    }
+                    index++;
+                }
+            if(answer.charAt(answer.length()-2)=='.' && answer.charAt(answer.length()-1)=='0')
+                answer = answer.substring(0,answer.length()-2);
+            text1.setText(answer);
+        }catch(Exception e){
+            text1.setText("Error");
+            e.printStackTrace();
             }
         }
     }
@@ -130,5 +157,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             double second1 =Double.parseDouble(second);
             if(second1 == 0)
                     return "Divide by 0 error";
-            return Double.toString(first1/second1);    }
+            return Double.toString(first1/second1);
+    }
+    public double onExp(String first, String exp){
+            double first1 = Double.parseDouble(first);
+            double exp1 = Double.parseDouble(exp);
+            return Math.pow(first1, exp1);
+    }
 }
