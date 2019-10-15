@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonPlus,buttonMinus,buttonTimes, buttonDivide,buttonEquals,buttonClear,buttonExp;
+    Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonPlus,buttonMinus,buttonTimes, buttonDivide,buttonEquals,buttonClear, button2nd;
     TextView text1;
     String answer;
     @Override
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDivide = findViewById(R.id.button_divide_id);
         buttonEquals = findViewById(R.id.button_equals_id);
         buttonClear = findViewById(R.id.button_clear_id);
-        buttonExp = findViewById(R.id.button_exp_id);
+        button2nd = findViewById(R.id.button_2nd_id);
         text1 = findViewById(R.id.textView_display_id);
 
         button1.setOnClickListener(this);
@@ -54,15 +54,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDivide.setOnClickListener(this);
         buttonClear.setOnClickListener(this);
         buttonEquals.setOnClickListener(this);
-        buttonExp.setOnClickListener(this);
+        button2nd.setOnClickListener(this);
     }
     public void onClick(View v) {
         Button button = (Button) v;
         CharSequence text = button.getText();
-        if (text1.getText().charAt(0) == '0' && button.getText() != "0")
+        if(button == button2nd) {
+            if(buttonPlus.getText().equals("+")) {
+                buttonPlus.setText("^");
+                buttonMinus.setText("-");
+                buttonTimes.setText(".");
+                buttonDivide.setText("π");
+            }
+            else {
+                buttonPlus.setText("+");
+                buttonMinus.setText("—");
+                buttonTimes.setText("×");
+                buttonDivide.setText("÷");
+
+            }
+        }
+        if (text1.getText().charAt(0) == '0' && button.getText() != "0" && button != button2nd)
             text1.setText(null);
-        if ("0123456789+—×÷^".contains(text))
+        if ("0123456789+—×÷^.-".contains(text))
             text1.append(text);
+        if("π".contains(text))
+            text1.append("3.141592");
         if (button == buttonClear)
             text1.setText("0");
         if (button == buttonEquals) {
