@@ -2,6 +2,7 @@ package com.example.calculatorproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import static java.lang.Math.PI;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonPlus,buttonMinus,buttonTimes, buttonDivide,buttonEquals,buttonClear, button2nd;
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonClear.setOnClickListener(this);
         buttonEquals.setOnClickListener(this);
         button2nd.setOnClickListener(this);
+
     }
     public void onClick(View v) {
         Button button = (Button) v;
@@ -65,13 +69,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonMinus.setText("-");
                 buttonTimes.setText(".");
                 buttonDivide.setText("π");
+                buttonPlus.setTextColor(Color.parseColor("#ff6500"));
+                buttonMinus.setTextColor(Color.parseColor("#ff6500"));
+                buttonTimes.setTextColor(Color.parseColor("#ff6500"));
+                buttonDivide.setTextColor(Color.parseColor("#ff6500"));
+
             }
             else {
                 buttonPlus.setText("+");
                 buttonMinus.setText("—");
                 buttonTimes.setText("×");
                 buttonDivide.setText("÷");
-
+                buttonPlus.setTextColor(Color.parseColor("#696969"));
+                buttonMinus.setTextColor(Color.parseColor("#000000"));
+                buttonTimes.setTextColor(Color.parseColor("#696969"));
+                buttonDivide.setTextColor(Color.parseColor("#000000"));
             }
         }
         if (text1.getText().charAt(0) == '0' && button.getText() != "0" && button != button2nd)
@@ -79,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if ("0123456789+—×÷^.-".contains(text))
             text1.append(text);
         if("π".contains(text))
-            text1.append("3.141592");
+            text1.append(PI+"");
         if (button == buttonClear)
             text1.setText("0");
         if (button == buttonEquals) {
@@ -111,10 +123,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         arr.remove(index);
                         index--;
                     }
-                    index++;
-                }
-                index = 0;
-                while (arr.size() > 1 && index < arr.size()) {
                     if (arr.get(index).equals("÷")) {
                         answer = "" + onDivide(arr.get(index - 1), arr.get(index + 1));
                         arr.set(index - 1, (onDivide(arr.get(index - 1), arr.get(index + 1))));
@@ -125,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     index++;
                 }
                 index = 0;
+
                 while (arr.size() > 1 && index < arr.size()) {
                     if (arr.get(index).equals("+")) {
                         answer = "" + onAdd(arr.get(index - 1), arr.get(index + 1));
@@ -133,10 +142,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         arr.remove(index);
                         index--;
                     }
-                    index++;
-                }
-                index = 0;
-                while(arr.size() > 1 && index < arr.size()) {
                     if (arr.get(index).equals("—")) {
                         answer = "" + onSubtract(arr.get(index - 1), arr.get(index + 1));
                         arr.set(index - 1, Double.toString(onSubtract(arr.get(index - 1), arr.get(index + 1))));

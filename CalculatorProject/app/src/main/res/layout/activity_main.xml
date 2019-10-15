@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView_display_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="#000000"
         android:gravity="right"
         android:text="0"
+        android:textColor="#696969"
         android:textSize="50dp" />
 
     <LinearLayout
@@ -27,7 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#696969"
             android:text="1"
+            android:textColor="#000000"
             android:textSize="24dp" />
 
         <Button
@@ -36,7 +42,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#000000"
             android:text="2"
+            android:textColor="#696969"
             android:textSize="24dp" />
 
         <Button
@@ -45,7 +53,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#696969"
             android:text="3"
+            android:textColor="#000000"
             android:textSize="24dp" />
 
         <Button
@@ -54,7 +64,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#000000"
             android:text="+"
+            android:textColor="#696969"
             android:textSize="24dp" />
     </LinearLayout>
 
@@ -69,7 +81,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#000000"
             android:text="4"
+            android:textColor="#696969"
             android:textSize="24dp" />
 
         <Button
@@ -78,7 +92,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#696969"
             android:text="5"
+            android:textColor="#000000"
             android:textSize="24dp" />
 
         <Button
@@ -87,7 +103,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#000000"
             android:text="6"
+            android:textColor="#696969"
             android:textSize="24dp" />
 
         <Button
@@ -96,7 +114,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#696969"
             android:text="—"
+            android:textColor="#000000"
             android:textSize="24dp" />
     </LinearLayout>
 
@@ -111,7 +131,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#696969"
             android:text="7"
+            android:textColor="#000000"
             android:textSize="24dp" />
 
         <Button
@@ -120,7 +142,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#000000"
             android:text="8"
+            android:textColor="#696969"
             android:textSize="24dp" />
 
         <Button
@@ -129,7 +153,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#696969"
             android:text="9"
+            android:textColor="#000000"
             android:textSize="24dp" />
 
         <Button
@@ -138,7 +164,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#000000"
             android:text="×"
+            android:textColor="#696969"
             android:textSize="24dp" />
 
     </LinearLayout>
@@ -154,7 +182,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#000000"
             android:text="C"
+            android:textColor="#696969"
             android:textSize="24dp" />
 
         <Button
@@ -163,7 +193,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#696969"
             android:text="0"
+            android:textColor="#000000"
             android:textSize="24dp" />
 
         <Button
@@ -172,7 +204,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#000000"
             android:text="2nd"
+            android:textColor="#696969"
             android:textSize="24dp" />
 
         <Button
@@ -181,7 +215,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#696969"
             android:text="÷"
+            android:textColor="#000000"
             android:textSize="24dp" />
 
     </LinearLayout>
@@ -196,7 +232,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#000000"
             android:text="="
+            android:textColor="#696969"
             android:textSize="24dp" />
     </LinearLayout>
 </LinearLayout>
