@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        if (text1.getText().charAt(0) == '0' && button.getText() != "0" && button != button2nd && button != buttonCE)
+        if ((text1.getText().charAt(0) == '0' || text1.getText().toString().equals("Error")) && button != button2nd && button != buttonCE)
             text1.setText(null);
         if ("0123456789+—×÷^.-E".contains(text))
             text1.append(text);
@@ -157,6 +157,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         index++;
                     }
                 }
+                else if(arr.size() == 0) {
+                    text1.setText("0");
+                    answer = "0";
+                }
                 else
                     answer = "" + onMultiply(arr.get(0),"1");
             if(answer.charAt(answer.length()-2)=='.' && answer.charAt(answer.length()-1)=='0')
@@ -169,8 +173,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         if(button == buttonCE){
-            if(text1.length() > 1)
+            if(text1.length() > 1 && !text1.getText().toString().equals("Error"))
                 text1.setText(text1.getText().toString().substring(0, text1.length() - 1));
+            else
+                text1.setText("0");
         }
     }
     public double onAdd(String first, String second) {
