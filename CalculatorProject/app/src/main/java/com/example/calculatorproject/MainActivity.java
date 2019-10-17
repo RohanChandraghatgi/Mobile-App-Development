@@ -15,7 +15,7 @@ import java.util.StringTokenizer;
 import static java.lang.Math.PI;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonPlus,buttonMinus,buttonTimes, buttonDivide,buttonEquals,buttonClear, button2nd;
+    Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonPlus,buttonMinus,buttonTimes, buttonDivide,buttonEquals,buttonClear, button2nd, buttonCE;
     TextView text1;
     String answer;
     @Override
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonEquals = findViewById(R.id.button_equals_id);
         buttonClear = findViewById(R.id.button_clear_id);
         button2nd = findViewById(R.id.button_2nd_id);
+        buttonCE = findViewById(R.id.button_CE_id);
         text1 = findViewById(R.id.textView_display_id);
 
         button1.setOnClickListener(this);
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonClear.setOnClickListener(this);
         buttonEquals.setOnClickListener(this);
         button2nd.setOnClickListener(this);
-
+        buttonCE.setOnClickListener(this);
     }
     public void onClick(View v) {
         Button button = (Button) v;
@@ -69,26 +70,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonMinus.setText("-");
                 buttonTimes.setText(".");
                 buttonDivide.setText("π");
+                button0.setText("E");
                 buttonPlus.setTextColor(Color.parseColor("#ff6500"));
                 buttonMinus.setTextColor(Color.parseColor("#ff6500"));
                 buttonTimes.setTextColor(Color.parseColor("#ff6500"));
                 buttonDivide.setTextColor(Color.parseColor("#ff6500"));
-
+                button0.setTextColor(Color.parseColor("#ff6500"));
             }
             else {
                 buttonPlus.setText("+");
                 buttonMinus.setText("—");
                 buttonTimes.setText("×");
                 buttonDivide.setText("÷");
+                button0.setText("0");
                 buttonPlus.setTextColor(Color.parseColor("#696969"));
                 buttonMinus.setTextColor(Color.parseColor("#000000"));
                 buttonTimes.setTextColor(Color.parseColor("#696969"));
                 buttonDivide.setTextColor(Color.parseColor("#000000"));
+                button0.setTextColor(Color.parseColor("#000000"));
             }
         }
-        if (text1.getText().charAt(0) == '0' && button.getText() != "0" && button != button2nd)
+
+        if (text1.getText().charAt(0) == '0' && button.getText() != "0" && button != button2nd && button != buttonCE)
             text1.setText(null);
-        if ("0123456789+—×÷^.-".contains(text))
+        if ("0123456789+—×÷^.-E".contains(text))
             text1.append(text);
         if("π".contains(text))
             text1.append(PI+"");
@@ -103,61 +108,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     arr.add(tokenizer.nextToken());
                 }
                 int index = 0;
-                while(arr.size() > 1 && index < arr.size()) {
-                    if(arr.get(index).equals("^")) {
-                        answer = "" + onExp(arr.get(index - 1), arr.get(index + 1));
-                        arr.set(index - 1, Double.toString(onExp(arr.get(index - 1), arr.get(index + 1))));
-                        arr.remove(index + 1);
-                        arr.remove(index);
-                        index--;
+                if(arr.contains("+")||arr.contains("—")||arr.contains("÷")||arr.contains("×")||arr.contains("^")){
+                    while(arr.size() > 1 && index < arr.size()) {
+                        if(arr.get(index).equals("^")) {
+                            answer = "" + onExp(arr.get(index - 1), arr.get(index + 1));
+                            arr.set(index - 1, Double.toString(onExp(arr.get(index - 1), arr.get(index + 1))));
+                            arr.remove(index + 1);
+                            arr.remove(index);
+                            index--;
+                        }
+                        index++;
                     }
-                    index++;
-                    Log.d("MY ANSWER", "" + arr);
-                }
-                index = 0;
-                while (arr.size() > 1 && index < arr.size()) {
-                    if (arr.get(index).equals("×")) {
-                        answer = "" + onMultiply(arr.get(index - 1), arr.get(index + 1));
-                        arr.set(index - 1, Double.toString(onMultiply(arr.get(index - 1), arr.get(index + 1))));
-                        arr.remove(index + 1);
-                        arr.remove(index);
-                        index--;
+                    index = 0;
+                    while (arr.size() > 1 && index < arr.size()) {
+                        if (arr.get(index).equals("×")) {
+                            answer = "" + onMultiply(arr.get(index - 1), arr.get(index + 1));
+                            arr.set(index - 1, Double.toString(onMultiply(arr.get(index - 1), arr.get(index + 1))));
+                            arr.remove(index + 1);
+                            arr.remove(index);
+                            index--;
+                        }
+                        if (arr.get(index).equals("÷")) {
+                            answer = "" + onDivide(arr.get(index - 1), arr.get(index + 1));
+                            arr.set(index - 1, (onDivide(arr.get(index - 1), arr.get(index + 1))));
+                            arr.remove(index + 1);
+                            arr.remove(index);
+                            index--;
+                        }
+                        index++;
                     }
-                    if (arr.get(index).equals("÷")) {
-                        answer = "" + onDivide(arr.get(index - 1), arr.get(index + 1));
-                        arr.set(index - 1, (onDivide(arr.get(index - 1), arr.get(index + 1))));
-                        arr.remove(index + 1);
-                        arr.remove(index);
-                        index--;
-                    }
-                    index++;
-                }
-                index = 0;
+                    index = 0;
 
-                while (arr.size() > 1 && index < arr.size()) {
-                    if (arr.get(index).equals("+")) {
-                        answer = "" + onAdd(arr.get(index - 1), arr.get(index + 1));
-                        arr.set(index - 1, Double.toString(onAdd(arr.get(index - 1), arr.get(index + 1))));
-                        arr.remove(index + 1);
-                        arr.remove(index);
-                        index--;
+                    while (arr.size() > 1 && index < arr.size()) {
+                        if (arr.get(index).equals("+")) {
+                            answer = "" + onAdd(arr.get(index - 1), arr.get(index + 1));
+                            arr.set(index - 1, Double.toString(onAdd(arr.get(index - 1), arr.get(index + 1))));
+                            arr.remove(index + 1);
+                            arr.remove(index);
+                            index--;
+                        }
+                        if (arr.get(index).equals("—")) {
+                            answer = "" + onSubtract(arr.get(index - 1), arr.get(index + 1));
+                            arr.set(index - 1, Double.toString(onSubtract(arr.get(index - 1), arr.get(index + 1))));
+                            arr.remove(index + 1);
+                            arr.remove(index);
+                            index--;
+                        }
+                        index++;
                     }
-                    if (arr.get(index).equals("—")) {
-                        answer = "" + onSubtract(arr.get(index - 1), arr.get(index + 1));
-                        arr.set(index - 1, Double.toString(onSubtract(arr.get(index - 1), arr.get(index + 1))));
-                        arr.remove(index + 1);
-                        arr.remove(index);
-                        index--;
-                    }
-                    index++;
                 }
+                else
+                    answer = "" + onMultiply(arr.get(0),"1");
             if(answer.charAt(answer.length()-2)=='.' && answer.charAt(answer.length()-1)=='0')
                 answer = answer.substring(0,answer.length()-2);
             text1.setText(answer);
+            answer = 0 + "";
         }catch(Exception e){
             text1.setText("Error");
             e.printStackTrace();
             }
+        }
+        if(button == buttonCE){
+            if(text1.length() > 1)
+                text1.setText(text1.getText().toString().substring(0, text1.length() - 1));
         }
     }
     public double onAdd(String first, String second) {
