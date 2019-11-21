@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         else{
-           textViewFob.setText("FOB THIS DOES NOT WORK IN LANDSCAPE");
+           textViewFob.setText("Does not work in Landscape");
         }
     }
 }
