@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ArrayList<Billionaire> list;
     TextView textViewBottom;
+    WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,20 +32,25 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.id_ListView);
         textViewBottom = findViewById(R.id.id_textView);
         list = new ArrayList<>();
+        webView = findViewById(R.id.id_webView);
 
-        list.add(new Billionaire("Jeff Bezos", R.drawable.bezos, 131, "Amazon",55,"Jeff Bezos founded e-commerce colossus Amazon in 1994 out of his garage in Seattle. He remains CEO and owns a nearly 12% stake."));
-        list.add(new Billionaire("Bill Gates", R.drawable.gates,96.5, "Microsoft", 64, "To date, Gates has donated $35.8 billion worth of Microsoft stock to the Gates Foundation."));
-        list.add(new Billionaire("Warren Buffett", R.drawable.buffet,82.5, "Berkshire Hathaway", 64,  "The son of a U.S. congressman, he first bought stock at age 11 and first filed taxes at age 13."));
-        list.add(new Billionaire("Bernard Arnault", R.drawable.arnault, 76, "LVMH", 70, "One of the world's ultimate taste-makers, Bernard Arnault oversees an empire of 70 brands including Louis Vuitton and Sephora."));
-        list.add(new Billionaire("Carlos Slim Helu", R.drawable.helu, 64, "telecom", 79,"His son-in-law Fernando Romero designed the Soumaya Museum in Mexico City, home to Slim's extensive, eclectic art collection."));
-        list.add(new Billionaire("Amancio Ortega", R.drawable.ortega, 62.7, "Zara", 83, "A pioneer in fast fashion, he cofounded Inditex, known for its Zara fashion chain, with his ex-wife Rosalia Mera (d. 2013) in 1975."));
-        list.add(new Billionaire("Larry Ellison", R.drawable.ellison, 62.5, "software",75,"Larry Ellison cofounded software firm Oracle in 1977 to tap into the growing need for customer relationship management databases." ));
-        list.add(new Billionaire("Mark Zuckerberg", R.drawable.zuckerberg, 62.3,"Facebook", 35, "Zuckerberg started Facebook at Harvard in 2004 at the age of 19 for students to match names with photos of classmates."));
-        list.add(new Billionaire("Michael Bloomberg", R.drawable.bloomberg, 55.5,"Bloomberg LP", 77,"After earning his M.B.A. from Harvard, Bloomberg got a job in 1966 in \"The Cage\" at Salomon Brothers, where he counted out securities by hand." ));
-        list.add(new Billionaire("Larry Page", R.drawable.page, 50.8, "Google",46,"Page was CEO until 2001, when Eric Schmidt took over, and then from 2011 until 2015, when he became CEO Google's new parent company Alphabet."));
-        list.add(new Billionaire("Charles Koch", R.drawable.ckoch, 50.5, "Koch Industries", 84, "Charles Koch has been chairman and CEO of Koch Industries, America's second largest private company by revenue, since 1967."));
-        list.add(new Billionaire("David Koch", R.drawable.dkoch, 50.5, "Koch Industries", 79, "A college basketball star, Koch held MIT's record for most points scored in a game for 46 years. Unfortunately, he passed away in August of 2019"));
-        list.add(new Billionaire("Mukesh Ambani", R.drawable.ambani, 50, "petrochemicals, oil & gas", 62, "Mukesh Ambani chairs and runs $88 billion (revenue) oil and gas giant Reliance Industries, among India's most valuable companies."));
+
+
+        list.add(new Billionaire("Jeff Bezos", R.drawable.bezos, 131, "Amazon",55,));
+        list.add(new Billionaire("Bill Gates", R.drawable.gates,96.5, "Microsoft", 64));
+        list.add(new Billionaire("Warren Buffett", R.drawable.buffet,82.5, "Berkshire Hathaway", 64));
+        list.add(new Billionaire("Bernard Arnault", R.drawable.arnault, 76, "LVMH", 70));
+        list.add(new Billionaire("Carlos Slim Helu", R.drawable.helu, 64, "telecom", 79));
+        list.add(new Billionaire("Amancio Ortega", R.drawable.ortega, 62.7, "Zara", 83));
+        list.add(new Billionaire("Larry Ellison", R.drawable.ellison, 62.5, "software",75));
+        list.add(new Billionaire("Mark Zuckerberg", R.drawable.zuckerberg, 62.3,"Facebook", 35));
+        list.add(new Billionaire("Michael Bloomberg", R.drawable.bloomberg, 55.5,"Bloomberg LP", 77));
+        list.add(new Billionaire("Larry Page", R.drawable.page, 50.8, "Google",46));
+        list.add(new Billionaire("Charles Koch", R.drawable.ckoch, 50.5, "Koch Industries", 84));
+        list.add(new Billionaire("David Koch", R.drawable.dkoch, 50.5, "Koch Industries", 79));
+        list.add(new Billionaire("Mukesh Ambani", R.drawable.ambani, 50, "petrochemicals, oil & gas", 62));
+
+
 
 
         CustomAdapter customAdapter = new CustomAdapter(this,R.layout.adapter_custom,list);
@@ -76,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             Button buttonDelete = adapterView.findViewById(R.id.id_button_delete);
 
             name.setText(list.get(position).getName());
-            netWorth.setText("Net Worth "+list.get(position).getNetWorth() + "billion");
+            netWorth.setText("Net Worth "+list.get(position).getNetWorth() + " billion");
             age.setText("Age: " + list.get(position).getAge());
             imageView.setImageResource(list.get(position).getFace());
 
@@ -84,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     list.remove(position1);
+                    notifyDataSetChanged();
                 }
             });
 
@@ -91,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     textViewBottom.setText("Source: " + list.get(position1).getSource());
+                    if(webView != null) {
+                        if(list.get(position1).getName().equals("Jeff Bezos"))
+                            webView.loadUrl("https://www.example.com");
+                    }
                 }
             });
 
@@ -105,14 +117,12 @@ public class MainActivity extends AppCompatActivity {
         private double netWorth;
         private String source;
         private int age;
-        private String note;
-        public Billionaire(String name, int face, double netWorth, String source, int age, String note){
+        public Billionaire(String name, int face, double netWorth, String source, int age){
             this.name = name;
             this.face = face;
             this.netWorth = netWorth;
             this.source = source;
             this.age = age;
-            this.note = note;
         }
 
         public String getName() {
@@ -135,8 +145,5 @@ public class MainActivity extends AppCompatActivity {
             return age;
         }
 
-        public String getNote() {
-            return note;
-        }
     }
 }

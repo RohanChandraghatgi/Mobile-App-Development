@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Net Worth"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/id_adapter_imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.058"
@@ -23,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Age"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/id_adapter_textView_networth"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.22"
@@ -39,8 +41,8 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/id_adapter_imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.889"
-        app:layout_constraintStart_toEndOf="@+id/id_adapter_imageView"
+        app:layout_constraintHorizontal_bias="0.68"
+        app:layout_constraintStart_toEndOf="@+id/id_adapter_textView_age"
         app:layout_constraintTop_toTopOf="@+id/id_adapter_imageView" />
 
     <TextView
