@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        list.add(new Billionaire("Jeff Bezos", R.drawable.bezos, 131, "Amazon",55,));
+        list.add(new Billionaire("Jeff Bezos", R.drawable.bezos, 131, "Amazon",55));
         list.add(new Billionaire("Bill Gates", R.drawable.gates,96.5, "Microsoft", 64));
         list.add(new Billionaire("Warren Buffett", R.drawable.buffet,82.5, "Berkshire Hathaway", 64));
         list.add(new Billionaire("Bernard Arnault", R.drawable.arnault, 76, "LVMH", 70));
