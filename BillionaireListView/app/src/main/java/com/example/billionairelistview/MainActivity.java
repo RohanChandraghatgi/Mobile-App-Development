@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         textViewBottom = findViewById(R.id.id_textView);
         list = new ArrayList<>();
         webView = findViewById(R.id.id_webView);
-
+        if(webView != null)
+            webView.loadUrl("https://www.forbes.com/real-time-billionaires/#b9b05b13d788");
 
 
         list.add(new Billionaire("Jeff Bezos", R.drawable.bezos, 131, "Amazon",55, "https://www.forbes.com/profile/jeff-bezos/?list=billionaires#32e8037d1b23"));
