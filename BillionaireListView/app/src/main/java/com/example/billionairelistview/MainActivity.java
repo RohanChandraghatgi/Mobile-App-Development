@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ArrayList<Billionaire> list;
     TextView textViewBottom;
+    TextView billionaireScore;
     WebView webView;
-    int position2;
+    int position2 = -1;
     public static final String KEY_list = "KEY_list";
     public static final String KEY_position = "KEY_position";
     @Override
@@ -36,32 +39,45 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.id_ListView);
         textViewBottom = findViewById(R.id.id_textView);
+        billionaireScore = findViewById(R.id.id_textView_Score);
         list = new ArrayList<>();
         webView = findViewById(R.id.id_webView);
-        if(webView != null)
-            webView.loadUrl("https://www.forbes.com/real-time-billionaires/#b9b05b13d788");
+        if(webView != null) {
+            webView.loadUrl("https://www.bloomberg.com/billionaires/");
+        }
 
+        list.add(new Billionaire("Jeff Bezos", R.drawable.bezos, 131, "Amazon",55, "https://www.forbes.com/profile/jeff-bezos/?list=billionaires#32e8037d1b23", 3));
+        list.add(new Billionaire("Bill Gates", R.drawable.gates,96.5, "Microsoft", 64, "https://www.forbes.com/profile/bill-gates/?list=billionaires#75b98768689f", 10));
+        list.add(new Billionaire("Warren Buffett", R.drawable.buffet,82.5, "Berkshire Hathaway", 64,"https://www.forbes.com/profile/warren-buffett/?list=billionaires#347a6a754639",10));
+        list.add(new Billionaire("Bernard Arnault", R.drawable.arnault, 76, "LVMH", 70, "https://www.forbes.com/profile/bernard-arnault/?list=billionaires#765ac25a66fa",4));
+        list.add(new Billionaire("Carlos Slim Helu", R.drawable.helu, 64, "telecom", 79, "https://www.forbes.com/profile/carlos-slim-helu/?list=billionaires#4bdba27d646b",5));
+        list.add(new Billionaire("Amancio Ortega", R.drawable.ortega, 62.7, "Zara", 83,"https://www.forbes.com/profile/amancio-ortega/?list=billionaires#548c0210116c",3));
+        list.add(new Billionaire("Larry Ellison", R.drawable.ellison, 62.5, "software",75,"https://www.forbes.com/profile/larry-ellison/?list=billionaires#76ac858124c2",10));
+        list.add(new Billionaire("Mark Zuckerberg", R.drawable.zuckerberg, 62.3,"Facebook", 35,"https://www.forbes.com/profile/mark-zuckerberg/?list=billionaires#1aacf1523e06",10));
+        list.add(new Billionaire("Michael Bloomberg", R.drawable.bloomberg, 55.5,"Bloomberg LP", 77,"https://www.forbes.com/profile/michael-bloomberg/?list=billionaires#231d4c1b1417",5));
+        list.add(new Billionaire("Larry Page", R.drawable.page, 50.8, "Google",46, "https://www.forbes.com/profile/larry-page/?list=billionaires#788d93847893",10));
+        list.add(new Billionaire("Charles Koch", R.drawable.ckoch, 50.5, "Koch Industries", 84, "https://www.forbes.com/profile/charles-koch/?list=billionaires#5250f41957d7",-10));
+        list.add(new Billionaire("David Koch", R.drawable.dkoch, 50.5, "Koch Industries", 79,"https://www.forbes.com/profile/david-koch/?list=billionaires#3861879e659b",0));
+        list.add(new Billionaire("Mukesh Ambani", R.drawable.ambani, 50, "petrochemicals, oil & gas", 62,"https://www.forbes.com/profile/mukesh-ambani/?list=billionaires#6fc1ba29214c",10));
 
-        list.add(new Billionaire("Jeff Bezos", R.drawable.bezos, 131, "Amazon",55, "https://www.forbes.com/profile/jeff-bezos/?list=billionaires#32e8037d1b23"));
-        list.add(new Billionaire("Bill Gates", R.drawable.gates,96.5, "Microsoft", 64, "https://www.forbes.com/profile/bill-gates/?list=billionaires#75b98768689f"));
-        list.add(new Billionaire("Warren Buffett", R.drawable.buffet,82.5, "Berkshire Hathaway", 64,"https://www.forbes.com/profile/warren-buffett/?list=billionaires#347a6a754639\""));
-        list.add(new Billionaire("Bernard Arnault", R.drawable.arnault, 76, "LVMH", 70, "https://www.forbes.com/profile/bernard-arnault/?list=billionaires#765ac25a66fa"));
-        list.add(new Billionaire("Carlos Slim Helu", R.drawable.helu, 64, "telecom", 79, "https://www.forbes.com/profile/carlos-slim-helu/?list=billionaires#4bdba27d646b"));
-        list.add(new Billionaire("Amancio Ortega", R.drawable.ortega, 62.7, "Zara", 83,"https://www.forbes.com/profile/amancio-ortega/?list=billionaires#548c0210116c"));
-        list.add(new Billionaire("Larry Ellison", R.drawable.ellison, 62.5, "software",75,"https://www.forbes.com/profile/larry-ellison/?list=billionaires#76ac858124c2"));
-        list.add(new Billionaire("Mark Zuckerberg", R.drawable.zuckerberg, 62.3,"Facebook", 35,"https://www.forbes.com/profile/mark-zuckerberg/?list=billionaires#1aacf1523e06"));
-        list.add(new Billionaire("Michael Bloomberg", R.drawable.bloomberg, 55.5,"Bloomberg LP", 77,"https://www.forbes.com/profile/michael-bloomberg/?list=billionaires#231d4c1b1417"));
-        list.add(new Billionaire("Larry Page", R.drawable.page, 50.8, "Google",46, "https://www.forbes.com/profile/larry-page/?list=billionaires#788d93847893"));
-        list.add(new Billionaire("Charles Koch", R.drawable.ckoch, 50.5, "Koch Industries", 84, "https://www.forbes.com/profile/charles-koch/?list=billionaires#5250f41957d7"));
-        list.add(new Billionaire("David Koch", R.drawable.dkoch, 50.5, "Koch Industries", 79,"https://www.forbes.com/profile/david-koch/?list=billionaires#3861879e659b"));
-        list.add(new Billionaire("Mukesh Ambani", R.drawable.ambani, 50, "petrochemicals, oil & gas", 62,"https://www.forbes.com/profile/mukesh-ambani/?list=billionaires#6fc1ba29214c"));
-
-        if(savedInstanceState != null){
+        if(savedInstanceState != null ){
             position2 = savedInstanceState.getInt(KEY_position);
             list = (ArrayList<Billionaire>) savedInstanceState.getSerializable(KEY_list);
-            textViewBottom.setText("Source: " + list.get(position2).getSource());
-            if(webView != null)
-                webView.loadUrl("" + list.get(position2).getLink());
+            if(list.size()>=0 && position2 != -1) {
+                textViewBottom.setText("Source: " + list.get(position2).getSource());
+                if (webView != null) {
+                    webView.loadUrl("" + list.get(position2).getLink());
+                    billionaireScore.setText("Billionaire Score: " + list.get(position2).getScore());
+                }
+            }
+        }
+        if(billionaireScore != null){
+            billionaireScore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "The Billionaire Score is a comprehensive rating taking into account how self made, relevant, and philanthropic an individual is.", Toast.LENGTH_LONG).show();
+                }
+            });
         }
 
 
@@ -108,6 +124,9 @@ public class MainActivity extends AppCompatActivity {
                     notifyDataSetChanged();
                     if(position2 > position1)
                         position2--;
+                    if(position2 == position1)
+                        position2 = -1;
+
                 }
             });
 
@@ -118,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     position2 = position1;
                     if(webView != null) {
                         webView.loadUrl("" + list.get(position2).getLink());
+                        billionaireScore.setText("Billionaire Score: " + list.get(position2).getScore());
                     }
                 }
             });
@@ -135,13 +155,15 @@ public class MainActivity extends AppCompatActivity {
         private String source;
         private int age;
         private String link;
-        public Billionaire(String name, int face, double netWorth, String source, int age, String link){
+        private int score;
+        public Billionaire(String name, int face, double netWorth, String source, int age, String link, int score){
             this.name = name;
             this.face = face;
             this.netWorth = netWorth;
             this.source = source;
             this.age = age;
             this.link = link;
+            this.score = score;
         }
 
         public String getName() {
@@ -169,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
             return link;
         }
 
+        public int getScore() {
+            return score;
+        }
     }
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {

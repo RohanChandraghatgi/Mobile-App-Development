@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F19C79">
 
     <TextView
         android:id="@+id/id_adapter_textView_networth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Net Worth"
+        android:textColor="#403D58"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/id_adapter_imageView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Age"
+        android:textColor="#403D58"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/id_adapter_textView_networth"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,6 +53,7 @@
         android:layout_width="239dp"
         android:layout_height="35dp"
         android:text="Name"
+        android:textColor="#403D58"
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="@+id/id_adapter_imageView"
         app:layout_constraintEnd_toEndOf="parent"
