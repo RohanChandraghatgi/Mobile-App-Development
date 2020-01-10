@@ -2,6 +2,7 @@ package com.example.weatherproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -25,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     JSONObject jsonForecast;
     Button search;
     String zip;
+    TextView textViewCurrent, textViewTown;
+    ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -33,6 +39,16 @@ public class MainActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.id_editText);
         search = findViewById(R.id.id_button_search);
+        listView = findViewById(R.id.id_ListView);
+
+        textViewCurrent = findViewById(R.id.id_textView_current);
+        textViewTown = findViewById(R.id.id_textView_town);
+
+
+
+
+
+
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -100,11 +116,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             try{
-                Log.d("TAG",jsonForecast.getJSONObject("city").getString("name"));
+                textViewCurrent.setText(jsonWeather.getJSONObject("main").getString("temp") + " °F");
+                textViewTown.setText(jsonWeather.getString("name"));
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
+    public class FutureWeather{
+        String date;
 
+    }
 }
