@@ -21,6 +21,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.SimpleTimeZone;
 
 public class MainActivity extends AppCompatActivity {
     EditText editText;
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     String zip;
     TextView textViewCurrent, textViewTown;
     ListView listView;
+    ArrayList<FutureWeather> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +49,24 @@ public class MainActivity extends AppCompatActivity {
         textViewCurrent = findViewById(R.id.id_textView_current);
         textViewTown = findViewById(R.id.id_textView_town);
 
+        //Long myTimeAsLong = 1578711600L*1000-18000;
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
+       // Log.d("TAG", (sdf.format(new Date(myTimeAsLong))));
+        list = new ArrayList<>();
 
+        try {
+//i idiot cant use dt for everything
+            list.add(new FutureWeather(sdf.format(new Date(jsonForecast.getJSONObject("0").getString("dt"))),timeFormat.format(jsonForecast.getJSONObject("0").getString("dt")),Integer.parseInt(jsonForecast.getJSONObject("0").getString("temp"))));
+            list.add(new FutureWeather(sdf.format(new Date(jsonForecast.getJSONObject("1").getString("dt"))),timeFormat.format(jsonForecast.getJSONObject("1").getString("dt")),Integer.parseInt(jsonForecast.getJSONObject("1").getString("temp"))));
+            list.add(new FutureWeather(sdf.format(new Date(jsonForecast.getJSONObject("2").getString("dt"))),timeFormat.format(jsonForecast.getJSONObject("2").getString("dt")),Integer.parseInt(jsonForecast.getJSONObject("2").getString("temp"))));
+            list.add(new FutureWeather(sdf.format(new Date(jsonForecast.getJSONObject("3").getString("dt"))),timeFormat.format(jsonForecast.getJSONObject("3").getString("dt")),Integer.parseInt(jsonForecast.getJSONObject("3").getString("temp"))));
+            list.add(new FutureWeather(sdf.format(new Date(jsonForecast.getJSONObject("4").getString("dt"))),timeFormat.format(jsonForecast.getJSONObject("4").getString("dt")),Integer.parseInt(jsonForecast.getJSONObject("4").getString("temp"))));
+            Log.d("CHAN", list.get(0).getDate() + " "+ list.get(0).getTemp() + " " + list.get(0).getTime());
 
-
-
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
 
         editText.addTextChangedListener(new TextWatcher() {
@@ -116,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             try{
-                textViewCurrent.setText(jsonWeather.getJSONObject("main").getString("temp") + " °F");
+                textViewCurrent.setText((jsonWeather.getJSONObject("main").getString("temp") + " °F"));
                 textViewTown.setText(jsonWeather.getString("name"));
             }catch(Exception e){
                 e.printStackTrace();
@@ -125,6 +144,31 @@ public class MainActivity extends AppCompatActivity {
     }
     public class FutureWeather{
         String date;
+        String time;
+        int temp;
+        //int image;
 
+        public FutureWeather(String date, String time, int temp) {
+            this.date = date;
+            this.time = time;
+            this.temp = temp;
+          //  this.image = image;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public String getTime() {
+            return time;
+        }
+
+        public int getTemp() {
+            return temp;
+        }
+
+        //public int getImage() {
+        //    return image;
+        //}
     }
 }
