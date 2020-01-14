@@ -45,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
     JSONObject jsonForecast;
     Button search;
     String zip;
-    TextView textViewCurrent, textViewTown;
+    TextView textViewCurrent, textViewTown, textViewCurrentTime, textViewQuote;
     ListView listView;
     ArrayList<FutureWeather> list;
+
+    ImageView imageViewCurrent;
 
     Context contextC;
 
@@ -66,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
         textViewCurrent = findViewById(R.id.id_textView_current);
         textViewTown = findViewById(R.id.id_textView_town);
         list = new ArrayList<>();
-
-
+        imageViewCurrent = findViewById(R.id.id_imageView_current);
+        textViewCurrentTime = findViewById(R.id.id_textView_currentTime);
+        textViewQuote = findViewById(R.id.id_textView_quote);
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -134,21 +137,15 @@ public class MainActivity extends AppCompatActivity {
             try{
                 textViewCurrent.setText((jsonWeather.getJSONObject("main").getString("temp") + " °F"));
                 textViewTown.setText(jsonWeather.getString("name"));
+                textViewQuote.setText(getQuote(jsonWeather.getJSONArray("weather").getJSONObject(0).getString("icon")));
+                Picasso.with(contextC).load("http://openweathermap.org/img/w/" + jsonWeather.getJSONArray("weather").getJSONObject(0).getString("icon")+ ".png").resize(300,300).into(imageViewCurrent);
                 SimpleDateFormat sdf = new SimpleDateFormat("M/dd");
                 SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+                SimpleDateFormat timeFormatCurrent = new SimpleDateFormat("M/dd h:mm");
+                textViewCurrentTime.setText(timeFormatCurrent.format(jsonWeather.getLong("dt")*1000));
                 for(int x = 0; x < jsonForecast.getJSONArray("list").length(); x++) {
-                    list.add(new FutureWeather(sdf.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(x).getString("dt")) * 1000)), timeFormat.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(x).getString("dt")) * 1000)), (int) Math.round(jsonForecast.getJSONArray("list").getJSONObject(x).getJSONObject("main").getDouble("temp")), jsonForecast.getJSONArray("list").getJSONObject(x).getJSONArray("weather").getJSONObject(0).getString("icon")));
+                    list.add(new FutureWeather(sdf.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(x).getString("dt")) * 1000)), timeFormat.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(x).getString("dt")) * 1000)), jsonForecast.getJSONArray("list").getJSONObject(x).getJSONObject("main").getDouble("temp_min"),jsonForecast.getJSONArray("list").getJSONObject(x).getJSONObject("main").getDouble("temp_max"), jsonForecast.getJSONArray("list").getJSONObject(x).getJSONArray("weather").getJSONObject(0).getString("icon")));
                 }
-                //list.add(new FutureWeather(sdf.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(1).getString("dt"))*1000)),timeFormat.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(1).getString("dt"))*1000)),(int)Math.round(jsonForecast.getJSONArray("list").getJSONObject(1).getJSONObject("main").getDouble("temp")),jsonForecast.getJSONArray("list").getJSONObject(1).getJSONArray("weather").getJSONObject(0).getString("icon")));
-                //list.add(new FutureWeather(sdf.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(2).getString("dt"))*1000)),timeFormat.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(2).getString("dt"))*1000)),(int)Math.round(jsonForecast.getJSONArray("list").getJSONObject(2).getJSONObject("main").getDouble("temp")),jsonForecast.getJSONArray("list").getJSONObject(2).getJSONArray("weather").getJSONObject(0).getString("icon")));
-                //list.add(new FutureWeather(sdf.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(3).getString("dt"))*1000)),timeFormat.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(3).getString("dt"))*1000)),(int)Math.round(jsonForecast.getJSONArray("list").getJSONObject(3).getJSONObject("main").getDouble("temp")),jsonForecast.getJSONArray("list").getJSONObject(3).getJSONArray("weather").getJSONObject(0).getString("icon")));
-                //list.add(new FutureWeather(sdf.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(4).getString("dt"))*1000)),timeFormat.format(new Date(Long.parseLong(jsonForecast.getJSONArray("list").getJSONObject(4).getString("dt"))*1000)),(int)Math.round(jsonForecast.getJSONArray("list").getJSONObject(4).getJSONObject("main").getDouble("temp")),jsonForecast.getJSONArray("list").getJSONObject(4).getJSONArray("weather").getJSONObject(0).getString("icon")));
-
-                Log.d("CHAN", list.get(0).getDate() + " " + list.get(0).getTime() + " " + list.get(0).getTemp() + " "  + list.get(0).getImage());
-                Log.d("CHAN", list.get(1).getDate() + " " + list.get(1).getTime() + " " + list.get(1).getTemp() + " "  + list.get(1).getImage());
-                Log.d("CHAN", list.get(2).getDate() + " " + list.get(2).getTime() + " " + list.get(2).getTemp() + " "  + list.get(2).getImage());
-                Log.d("CHAN", list.get(3).getDate() + " " + list.get(3).getTime() + " " + list.get(3).getTemp() + " "  + list.get(3).getImage());
-                Log.d("CHAN", list.get(4).getDate() + " " + list.get(4).getTime() + " " + list.get(4).getTemp() + " "  + list.get(4).getImage());
 
                 CustomAdapter customAdapter = new CustomAdapter(contextC,R.layout.adapter_custom,list);
                 listView.setAdapter(customAdapter);
@@ -156,17 +153,53 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("BRUH",e.toString());
             }
         }
+        public String getQuote(String icon){
+            switch(icon){
+                case "01d":
+                    return "Some people are so much sunshine to the square inch - Walt Whitman";
+                case "01n":
+                    return "We all shine on...like the moon and the stars and the sun...we all shine on...come on and on and on... - John Lennon";
+                case "02d":
+                case "02n":
+                    return "You can't make a cloudy day a sunny day, but can embrace it and decide it's going to be a good day after all. - Jane Lynch";
+                case "03d":
+                case "03n":
+                    return "If you count the sunny and the cloudy days of the whole year, you will find that the sunshine predominates. - Ovid";
+                case "04d":
+                case "04n":
+                    return "There are some cloudy days for the mind as well as for the world; and the man who has the most genius is twenty times a day in the clouds. - Laurent Angliviel de la Beaumelle";
+                case "09d":
+                case "09n":
+                    return "Cold feet under a warm blanket, steam over an empty mug--rain splatters on dry window pane--open journals of closed memories... tears of laughter and joy of pain... schmaltz of diametric morning. - Val Uchendu";
+                case "10d":
+                case "10n":
+                    return "Rain,\n" + "Aren’t you my soul’s joyful tears\n" + "only longing for the sky to be happy?";
+                case "11d":
+                case "11n":
+                    return "When the dark clouds accompany us with the furious concert of Thunder, then the liberating rain will finally wipe away the tears from our cheeks. - Sir Kristian Goldmund Aumann";
+                case "13d":
+                case "13n":
+                    return "A lot of people like snow. I find it to be an unnecessary freezing of water. - Carl Reiner";
+                case "50d":
+                case "50n":
+                    return  "The mountain veiled in mist is not a hill; an oak tree in the rain is not a weeping willow. - Khalil Gibran";
+            }
+            return "";
+        }
     }
+
     public class FutureWeather{
         String date;
         String time;
-        int temp;
+        double mintemp;
+        double maxtemp;
         String image;
 
-        public FutureWeather(String date, String time, int temp, String image) {
+        public FutureWeather(String date, String time, double mintemp,double maxtemp, String image) {
             this.date = date;
             this.time = time;
-            this.temp = temp;
+            this.mintemp = mintemp;
+            this.maxtemp = maxtemp;
             this.image = image;
         }
 
@@ -178,9 +211,11 @@ public class MainActivity extends AppCompatActivity {
             return time;
         }
 
-        public int getTemp() {
-            return temp;
+        public double getMinTemp() {
+            return mintemp;
         }
+
+        public double getMaxtemp(){return maxtemp;}
 
         public String getImage() {
             return image;
@@ -209,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
             textViewDate.setText(list.get(position).getDate());
             textViewTime.setText(list.get(position).getTime());
-            textViewTemp.setText(""+list.get(position).getTemp());
+            textViewTemp.setText(""+list.get(position).getMinTemp() + "°/ " + list.get(position).getMaxtemp() + "°");
             try {
                 String iconUrl = "http://openweathermap.org/img/w/" + list.get(position).getImage() + ".png";
                 Picasso.with(context).load(iconUrl).resize(150,150).into(imageView);

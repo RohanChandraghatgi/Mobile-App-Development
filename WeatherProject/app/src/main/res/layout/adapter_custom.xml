@@ -10,26 +10,25 @@
         android:id="@+id/id_adapter_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#310A31"
-        android:textSize="30dp"
+        android:textColor="#EE6C4D"
+        android:textSize="20dp"
         app:fontFamily="@font/open_sans_light"
         app:layout_constraintBottom_toBottomOf="@+id/id_adapter_temp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/id_adapter_temp"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="@+id/id_adapter_temp" />
 
     <TextView
         android:id="@+id/id_adapter_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#310A31"
+        android:textColor="#EE6C4D"
         android:textSize="30dp"
         app:fontFamily="@font/bitter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.66"
+        app:layout_constraintHorizontal_bias="0.67"
         app:layout_constraintStart_toEndOf="@+id/id_adapter_date"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,12 +47,12 @@
         android:id="@+id/id_adapter_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#310A31"
-        android:textSize="30dp"
+        android:textColor="#EE6C4D"
+        android:textSize="20dp"
         app:fontFamily="@font/open_sans_light"
         app:layout_constraintBottom_toBottomOf="@+id/id_adapter_temp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toEndOf="@+id/id_adapter_date"
         app:layout_constraintTop_toTopOf="@+id/id_adapter_temp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
