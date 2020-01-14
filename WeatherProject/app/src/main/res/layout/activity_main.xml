@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fffdd0"
     tools:context=".MainActivity">
+
 
     <EditText
         android:id="@+id/id_editText"
@@ -12,7 +14,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
-        android:text=""
+        android:textColor="#310A31"
+        app:fontFamily="@font/open_sans_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.83"
@@ -20,11 +23,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
+
     <Button
         android:id="@+id/id_button_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="search"
+        android:textColor="#fffdd0"
+        android:background="#310a31"
+        app:fontFamily="@font/open_sans_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -37,8 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Zip Code:"
+        android:textColor="#310A31"
         android:textSize="24dp"
-        app:fontFamily="@font/bitter"
+        app:fontFamily="@font/open_sans_light"
         app:layout_constraintBottom_toTopOf="@+id/id_button_search"
         app:layout_constraintEnd_toStartOf="@+id/id_editText"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,8 +56,9 @@
         android:id="@+id/id_textView_current"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#310A31"
         android:textSize="80dp"
-        app:fontFamily="@font/bitter"
+        app:fontFamily="@font/open_sans_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,8 +69,9 @@
         android:id="@+id/id_textView_town"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#310A31"
         android:textSize="40dp"
-        app:fontFamily="@font/bitter"
+        app:fontFamily="@font/open_sans_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,10 +80,13 @@
 
     <ListView
         android:id="@+id/id_ListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_textView_town" />
+        app:layout_constraintTop_toBottomOf="@+id/id_textView_town"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
