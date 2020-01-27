@@ -14,6 +14,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     double distance = 0;
     Location firstLocation;
     int counter = 0;
+    Button reset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,25 +40,36 @@ public class MainActivity extends AppCompatActivity {
         textViewLocation = findViewById(R.id.id_textView_location);
         textViewAddress = findViewById(R.id.id_textView_address);
         textViewDistance = findViewById(R.id.id_textView_distance);
+        reset = findViewById(R.id.id_button_reset);
         locationManager = (LocationManager)(getSystemService(Context.LOCATION_SERVICE));
         geocoder = new Geocoder(this, Locale.US);
 
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                distance = 0;
+                textViewDistance.setText("0.0");
+            }
+        });
             locationListener = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     counter++;
-                    if(counter == 1)
-                        firstLocation = location;
                     textViewLocation.setText(location.getLatitude() + " " + location.getLongitude());
-                    Log.d("HI", ""+location.distanceTo(firstLocation));
-                    distance+=location.distanceTo(firstLocation);
-                    firstLocation = location;
-                    try {
-                        list = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                        textViewAddress.setText(list.get(0).getAddressLine(0));
-                        textViewDistance.setText(""+distance);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if(counter == 1) {
+                        firstLocation = location;
+                    }
+                    else if ((double)location.distanceTo(firstLocation) > 3)
+                        {
+                        distance += (double)location.distanceTo(firstLocation);
+                        firstLocation = location;
+                        textViewDistance.setText(distance + " meters");
+                        try {
+                            list = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            textViewAddress.setText(list.get(0).getAddressLine(0));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }
@@ -79,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS);
 //            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 0, locationListener);
 
     }@Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
