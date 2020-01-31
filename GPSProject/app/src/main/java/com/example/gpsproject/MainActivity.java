@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 //            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS);
         }
         locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 1000, 2,locationListener);
-//        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 2, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 2, locationListener);
 
     }@Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
