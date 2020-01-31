@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 distance = 0;
-                textViewDistance.setText("0.0");
+                textViewDistance.setText("0.0 m");
             }
         });
             locationListener = new LocationListener() {
@@ -59,11 +59,12 @@ public class MainActivity extends AppCompatActivity {
                     if(counter == 1) {
                         firstLocation = location;
                     }
-                    else if ((double)location.distanceTo(firstLocation) > 3)
+                    else
                         {
                         distance += (double)location.distanceTo(firstLocation);
                         firstLocation = location;
                         textViewDistance.setText(distance + " meters");
+                        Log.d("DISTANCE", distance + "");
                         try {
                             list = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                             textViewAddress.setText(list.get(0).getAddressLine(0));
@@ -93,12 +94,15 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS);
 //            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 0, locationListener);
+        locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 1000, 2,locationListener);
+//        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 2, locationListener);
 
     }@Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
     }
-
+    protected void onDestroy() {
+        super.onDestroy();
+        locationManager.removeUpdates(locationListener);
+    }
 }
