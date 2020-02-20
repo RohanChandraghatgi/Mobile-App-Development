@@ -1,11 +1,18 @@
 package com.example.cookieclicker;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -17,44 +24,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
-    TextView clickText, dropletText, dropletPerSecondText, faucetCostText;
+    int xTouch;
+    int yTouch;
+    TextView clickText, dropletText, dropletsPerSecondText;
     ImageView imageView;
     ConstraintLayout constraintLayout;
     Context context;
-    Button storeButton, purchaseButton;
-    public int droplets = 0, dropletsPerSecond;
+    Button storeButton;
+    private int droplets = 0, dropletsPerSecond = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         imageView = findViewById(R.id.id_imageView);
         constraintLayout = findViewById(R.id.id_layout);
         dropletText = findViewById(R.id.id_dropletTextView);
-        dropletPerSecondText = findViewById(R.id.id_dropletPerSecondTextView);
+        dropletsPerSecondText = findViewById(R.id.id_dropletPerSecondTextView);
         context = this;
         storeButton = findViewById(R.id.id_storeButton);
-        purchaseButton = findViewById(R.id.id_buttonPurchase);
 
-
-        storeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(imageView.getVisibility() == View.VISIBLE) {
-                    imageView.setVisibility(View.INVISIBLE);
-                    dropletText.setVisibility(View.INVISIBLE);
-                    dropletPerSecondText.setVisibility(View.INVISIBLE);
-                    storeButton.setText("Clicker");
-                }
-                else{
-                    imageView.setVisibility(View.VISIBLE);
-                    dropletText.setVisibility(View.VISIBLE);
-                    dropletPerSecondText.setVisibility(View.VISIBLE);
-                    storeButton.setText("Store");
-                }
-            }
-        });
+        configureStoreButton();
 
         final ScaleAnimation animationGlass = new ScaleAnimation(.75f, 1.0f, .75f,1.0f, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
         animationGlass.setDuration(400);
@@ -67,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 v.startAnimation(animationGlass);
                 droplets++;
+
                 clickText = new TextView(context);
                 clickText.setId(View.generateViewId());
                 clickText.setText("+1");
@@ -84,19 +76,25 @@ public class MainActivity extends AppCompatActivity {
                 constraintSet.connect(clickText.getId(),constraintSet.BOTTOM,constraintLayout.getId(),constraintSet.BOTTOM);
                 constraintSet.connect(clickText.getId(),constraintSet.RIGHT,constraintLayout.getId(),constraintSet.RIGHT);
 
-                constraintSet.setHorizontalBias(clickText.getId(),.5f);
-                constraintSet.setVerticalBias(clickText.getId(),.5f);
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int height = displayMetrics.heightPixels;
+                int width = displayMetrics.widthPixels;
+
+                constraintSet.setHorizontalBias(clickText.getId(),(float)xTouch/width);
+                constraintSet.setVerticalBias(clickText.getId(),(float)yTouch/height);
+
 
                 constraintSet.applyTo(constraintLayout);
 
-                TranslateAnimation animationClick = new TranslateAnimation(0,0,200,-600);
+                //TranslateAnimation animationClick = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,200,Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,200);
                 AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f,0.0f);
-                animationClick.setDuration(2000);
+                //animationClick.setDuration(2000);
                 alphaAnimation.setDuration(2000);
 
                 AnimationSet animationSet = new AnimationSet(false);
 
-                animationSet.addAnimation(animationClick);
+                //animationSet.addAnimation(animationClick);
                 animationSet.addAnimation(alphaAnimation);
 
 
@@ -104,10 +102,11 @@ public class MainActivity extends AppCompatActivity {
                 clickText.setVisibility(View.INVISIBLE);
 
                 dropletText.setText(droplets + " droplets");
-
             }
         });
+
     }
+
     public class Item{
         int dropletsPerSecond;
         int image;
@@ -120,6 +119,30 @@ public class MainActivity extends AppCompatActivity {
         }
         public int getImage(){
             return image;
+        }
+    }
+
+    private void configureStoreButton(){
+        storeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+                intent.putExtra("DROPLETS_PER_SECOND",dropletsPerSecond);
+
+                startActivityForResult(intent, 0);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 0){
+            if(resultCode == RESULT_OK){
+                dropletsPerSecond = data.getIntExtra("DROPLETS_PER_SECOND",0);
+                Log.d("ROHAN",dropletsPerSecond + "");
+            }
         }
     }
 }
