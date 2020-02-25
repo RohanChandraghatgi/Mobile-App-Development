@@ -11,7 +11,7 @@
         android:id="@+id/id_textView_FaucetCost2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Faucet: 50 cookies"
+        android:text="Faucet: 20 droplets"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,9 +36,30 @@
         android:id="@+id/id_buttonPurchase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Purchase"
         app:layout_constraintBottom_toBottomOf="@+id/id_textView_FaucetCost2"
         app:layout_constraintEnd_toEndOf="@+id/id_buttonClicker"
         app:layout_constraintStart_toStartOf="@+id/id_buttonClicker"
         app:layout_constraintTop_toTopOf="@+id/id_textView_FaucetCost2" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_textView_FaucetCost2"
+        app:srcCompat="@drawable/faucet" />
+
+    <TextView
+        android:id="@+id/id_textView_ShopDroplets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Droplets: "
+        app:layout_constraintBottom_toBottomOf="@+id/id_buttonClicker"
+        app:layout_constraintEnd_toStartOf="@+id/id_buttonClicker"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/id_buttonClicker" />
 </androidx.constraintlayout.widget.ConstraintLayout>
