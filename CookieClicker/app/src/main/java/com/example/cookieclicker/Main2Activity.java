@@ -50,7 +50,6 @@ public class Main2Activity extends AppCompatActivity {
                 if(droplets.get() >= cost) {
                     dropletsPerSecond += 1;
                     droplets.set((droplets.get()-cost));
-                    Toast.makeText(Main2Activity.this, "Faucet Purchased!", Toast.LENGTH_SHORT).show();
                     cost = (int)(20*(1.0+(double)(dropletsPerSecond)/3));
                     textViewFaucetCost.setText("Faucet: " + cost + " droplets");
                 }

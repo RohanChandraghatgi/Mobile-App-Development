@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         dropletText = findViewById(R.id.id_dropletTextView);
         dropletsPerSecondText = findViewById(R.id.id_dropletPerSecondTextView);
         storeButton = findViewById(R.id.id_storeButton);
-        droplets = new AtomicInteger();
+        droplets = new AtomicInteger(100000000);
 
         constraintLayout.setBackgroundColor(Color.BLACK);
         configureStoreButton();
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 clickText.setId(View.generateViewId());
                 clickText.setText("+1");
                 clickText.setTextColor(Color.WHITE);
+                clickText.setTextSize(30);
 
                 ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
                 clickText.setLayoutParams(params);
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 while(data.getIntExtra("DROPLETS_PER_SECOND",0) > dropletsPerSecond){
                     imageViewFaucet = new ImageView(MainActivity.this);
                     imageViewFaucet.setId(View.generateViewId());
-                    Picasso.get().load(R.drawable.faucet).resize(175,175).into(imageViewFaucet);
+                    Picasso.get().load(R.drawable.faucet).resize(200,200).into(imageViewFaucet);
 
                     ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
                     imageViewFaucet.setLayoutParams(params);
@@ -169,12 +171,21 @@ public class MainActivity extends AppCompatActivity {
                     constraintSet.connect(imageViewFaucet.getId(),constraintSet.BOTTOM,constraintLayout.getId(),constraintSet.BOTTOM);
                     constraintSet.connect(imageViewFaucet.getId(),constraintSet.RIGHT,constraintLayout.getId(),constraintSet.RIGHT);
 
+                    constraintSet.setHorizontalBias(imageViewFaucet.getId(),(float)(Math.random()*.8+.1));
+                    constraintSet.setVerticalBias(imageViewFaucet.getId(),(float)(Math.random()*.2+.8));
+                    AnimationSet faucetAnimationSet = new AnimationSet(false);
 
-                    constraintSet.setHorizontalBias(imageViewFaucet.getId(),(float)(Math.random()*.5+.25));
-                    constraintSet.setVerticalBias(imageViewFaucet.getId(),(float)(Math.random()*.1+.85));
+                    ScaleAnimation faucetAnimation1 = new ScaleAnimation(0f, 1.0f, 0f,1.0f, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
 
+                    faucetAnimation1.setDuration(2000);
 
+                    faucetAnimationSet.addAnimation(faucetAnimation1);
+
+                    faucetAnimation1.setInterpolator(new BounceInterpolator());
                     constraintSet.applyTo(constraintLayout);
+
+
+                    imageViewFaucet.startAnimation(faucetAnimationSet);
                     dropletsPerSecond++;
                 }
                 dropletsPerSecondText.setText(dropletsPerSecond + " droplets/second");

@@ -23,35 +23,37 @@
 
     <ImageView
         android:id="@+id/id_imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="284dp"
+        android:layout_height="315dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65999997"
         app:srcCompat="@drawable/waterglass" />
 
     <TextView
         android:id="@+id/id_dropletTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/biryani_semibold"
         android:text="0 droplets"
         android:textColor="#FFFFFF"
-        android:textSize="30dp"
+        android:textSize="40dp"
         app:layout_constraintBottom_toTopOf="@+id/id_imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13999999" />
+        app:layout_constraintVertical_bias="0.32" />
 
     <TextView
         android:id="@+id/id_dropletPerSecondTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/biryani_semibold"
         android:text="0 droplets/second"
         android:textColor="#FFFFFF"
-        android:textSize="20dp"
+        android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@+id/id_imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +64,7 @@
         android:id="@+id/id_storeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/biryani_semibold"
         android:text="Store"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
