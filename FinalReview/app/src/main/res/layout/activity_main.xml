@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/id_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.050000012" />
+
+    <Spinner
+        android:id="@+id/id_spinner"
+        android:layout_width="313dp"
+        android:layout_height="26dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_editText"
+        app:layout_constraintStart_toStartOf="@+id/id_editText"
+        app:layout_constraintTop_toBottomOf="@+id/id_editText"
+        app:layout_constraintVertical_bias="0.01999998" />
+
+    <RadioGroup
+        android:id="@+id/id_radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_spinner"
+        app:layout_constraintStart_toStartOf="@+id/id_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/id_spinner"
+        app:layout_constraintVertical_bias="0.19999999">
+
+        <RadioButton
+            android:id="@+id/id_radioA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Neel" />
+
+        <RadioButton
+            android:id="@+id/id_radioB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mehar" />
+
+        <RadioButton
+            android:id="@+id/id_radio3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Anish" />
+    </RadioGroup>
+
+    <ImageView
+        android:id="@+id/id_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_radioGroup"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/id_radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/id_radioGroup"
+        app:srcCompat="@mipmap/ic_launcher_round" />
+
+    <Button
+        android:id="@+id/id_launch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_spinner"
+        app:layout_constraintStart_toStartOf="@+id/id_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/id_spinner"
+        app:layout_constraintVertical_bias="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>
