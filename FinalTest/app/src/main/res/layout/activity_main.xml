@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/id_textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rohan Chandraghatgi"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.07999998" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Block 3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_textView_name"
+        app:layout_constraintStart_toStartOf="@+id/id_textView_name"
+        app:layout_constraintTop_toBottomOf="@+id/id_textView_name"
+        app:layout_constraintVertical_bias="0.00999999" />
+
+    <RadioGroup
+        android:id="@+id/id_radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_textView_name"
+        app:layout_constraintStart_toStartOf="@+id/id_textView_name"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.13">
+
+        <RadioButton
+            android:id="@+id/id_radioToast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Toast" />
+
+        <RadioButton
+            android:id="@+id/id_radioColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Change Color" />
+
+        <RadioButton
+            android:id="@+id/id_radioCase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Uppercase" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/id_button_run"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Run"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_textView_name"
+        app:layout_constraintStart_toStartOf="@+id/id_textView_name"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.32999998" />
+
+    <Button
+        android:id="@+id/id_button_launch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Launch App"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_button_run"
+        app:layout_constraintStart_toStartOf="@+id/id_button_run"
+        app:layout_constraintTop_toBottomOf="@+id/id_button_run" />
+</androidx.constraintlayout.widget.ConstraintLayout>
