@@ -3,6 +3,7 @@ package com.example.finalreview;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 public class editTextOutput extends AppCompatActivity {
@@ -14,5 +15,12 @@ public class editTextOutput extends AppCompatActivity {
         imageView = findViewById(R.id.id_imageView_Output);
         int image = getIntent().getIntExtra("IMAGE", 0);
         imageView.setImageResource(image);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

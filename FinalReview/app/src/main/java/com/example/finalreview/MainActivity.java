@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,6 +43,34 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter;
         arrayAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,list);
         spinner.setAdapter(arrayAdapter);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.toString().equals("Neel")) {
+                    imageView.setImageResource(R.drawable.neel);
+                    imageView.setTag(R.drawable.neel);
+                }
+                else if(s.toString().equals("Mehar")){
+                    imageView.setImageResource(R.drawable.mehar);
+                    imageView.setTag(R.drawable.mehar);
+                }
+                else if(s.toString().equals("Anish")){
+                    imageView.setImageResource(R.drawable.anish);
+                    imageView.setTag(R.drawable.anish);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
