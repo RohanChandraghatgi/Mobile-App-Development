@@ -108,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 URL urlForecast = new URL("https://api.openweathermap.org/data/2.5/forecast?appid=d165cb431bba386b434067ab6b0be227&units=imperial&zip=" + strings[0] + ",us");
                 URLConnection urlConnectionForecast = urlForecast.openConnection();
+                Log.d("YEET",""+urlConnectionForecast);
+                Log.d("YEET",""+urlConnectionForecast.getInputStream());
                 InputStream inputStreamForecast = urlConnectionForecast.getInputStream();
                 String json = "";
                 String line = null;
