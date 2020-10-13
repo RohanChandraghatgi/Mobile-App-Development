@@ -1,4 +1,4 @@
-package com.example.ingrediantchecker;
+package com.example.ingredientchecker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,9 +17,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,42 +45,38 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     Button scanButton;
-    TextView textViewBarcode, textViewProductName, textViewIngredientList;
     String barcode;
     JSONObject jsonFoodItem;
-    EditText tempEditText;
     ArrayList<BarcodeObject> arrayListPreviousBarcode;
     ListView listViewPreviousBarcode;
+    CustomAdapter customAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         scanButton = findViewById(R.id.id_scanButton);
-        textViewBarcode = findViewById(R.id.id_textView_Barcode);
-        textViewProductName = findViewById(R.id.id_textView_ProductName);
-        textViewIngredientList = findViewById(R.id.id_textView_IngrediantList);
+        listViewPreviousBarcode = findViewById(R.id.id_listView);
 
-        tempEditText = findViewById(R.id.id_editText_temp);
+
+        arrayListPreviousBarcode = new ArrayList<>();
 
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA}, PackageManager.PERMISSION_GRANTED);
 
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("BarcodeSave.txt")));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("BarcodeSave2.txt")));
             StringBuffer stringBuffer = new StringBuffer();
 
             String lines;
             while((lines = reader.readLine())!= null){
                 stringBuffer.append(lines + "\n");
             }
-            ArrayList<String> arrayListTemp =  new ArrayList(Arrays.asList(stringBuffer.toString().split(" ")));
-            Log.d("CHAN", arrayListTemp.toString());
+
+
+            ArrayList<String> arrayListTemp =  new ArrayList(Arrays.asList(stringBuffer.toString().split("!")));
             for(int x = 0; x < arrayListTemp.size(); x++) {
-                BarcodeObject tempBarcodeObject = new BarcodeObject("BRUH", "Debug");
-                arrayListPreviousBarcode.add(tempBarcodeObject);
+                arrayListPreviousBarcode.add(new BarcodeObject(arrayListTemp.get(x).substring(0,arrayListTemp.get(x).indexOf("+")),arrayListTemp.get(x).substring(arrayListTemp.get(x).indexOf("+")+1)));
             }
-            //arrayListTemp.get(x).substring(0,arrayListTemp.get(x).indexOf(','))
-            //arrayListTemp.get(x).substring(arrayListTemp.get(x).indexOf(',')+1,arrayListTemp.get(x).length())
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }catch(IOException e){
@@ -91,26 +87,36 @@ public class MainActivity extends AppCompatActivity {
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*IntentIntegrator intentIntegrator = new IntentIntegrator(MainActivity.this);
-                //intentIntegrator. --> can be used to create parameters for barcode. For instance, the format, which camera to use, etc.
+                IntentIntegrator intentIntegrator = new IntentIntegrator(MainActivity.this);
                 intentIntegrator.setCaptureActivity(CaptureAct.class);
                 intentIntegrator.setOrientationLocked(false);
                 intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
                 intentIntegrator.setPrompt("Scanning Code");
                 intentIntegrator.initiateScan();
-                 */
-                AsyncThread asyncThread = new AsyncThread();
-                asyncThread.execute(tempEditText.getText().toString());
 
             }
         });
+
         try {
-            CustomAdapter customAdapter = new CustomAdapter(this, R.layout.adapter_custom, arrayListPreviousBarcode);
+            customAdapter = new CustomAdapter(this, R.layout.adapter_custom, arrayListPreviousBarcode);
             listViewPreviousBarcode.setAdapter(customAdapter);
+
         }catch(Exception e){
             e.printStackTrace();
         }
+        listViewPreviousBarcode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intentToLoad = new Intent(MainActivity.this, InDepthIngredients.class);
+                intentToLoad.putExtra("BARCODE", arrayListPreviousBarcode.get(position).getBarcode());
+                startActivity(intentToLoad);
+
+            }
+        });
+
     }
+
+
+
     public class CustomAdapter extends ArrayAdapter<BarcodeObject>{
         List<BarcodeObject> list;
         Context context;
@@ -162,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!jsonFoodItem.getJSONObject("product").getString("product_name_en").equals("")) {        //Start of write code
                     String initial = "";
                     try {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("BarcodeSave.txt")));
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("BarcodeSave2.txt")));
                         StringBuffer stringBuffer = new StringBuffer();
 
                         String lines;
@@ -179,12 +185,20 @@ public class MainActivity extends AppCompatActivity {
                     String textBarcode = strings[0];
                     String textName = jsonFoodItem.getJSONObject("product").getString("product_name_en");
                     try {
-                        OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("BarcodeSave.txt", Context.MODE_PRIVATE));
-                        if (!initial.contains(textBarcode))
-                            writer.write(textBarcode + "," + textName + " " + initial);
-                        else
+                        OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("BarcodeSave2.txt", Context.MODE_PRIVATE));
+                        if (!initial.contains(textBarcode)) {
+                            if(initial != "")
+                                writer.write(textBarcode + "+" + textName + "!" + initial);
+                            else
+                                writer.write(textBarcode + "+" + textName);
+                            writer.close();
+                            arrayListPreviousBarcode.add(0, new BarcodeObject(textBarcode,textName));
+                            customAdapter.notifyDataSetChanged();
+                        }
+                        else {
                             writer.write(initial);
-                        writer.close();
+                            writer.close();
+                        }
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -202,10 +216,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             try{
-                textViewBarcode.setText(tempEditText.getText());
-                textViewProductName.setText(jsonFoodItem.getJSONObject("product").getString("product_name_en"));
-                textViewIngredientList.setText(jsonFoodItem.getJSONObject("product").getString("ingredients_text"));
-
                 jsonFoodItem = null;
             }catch (Exception e){
                 e.printStackTrace();
@@ -220,13 +230,10 @@ public class MainActivity extends AppCompatActivity {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
         if(intentResult != null){
             if(intentResult.getContents() == null){
-                textViewBarcode.setText("Unable to Scan");
             }
             else{
 
                 barcode = intentResult.getContents();
-                textViewBarcode.setText(intentResult.getContents());
-                textViewBarcode.setText("Barcode:" + barcode);
                 AsyncThread asyncThread = new AsyncThread();
                 asyncThread.execute(barcode);
             }
@@ -246,6 +253,9 @@ public class MainActivity extends AppCompatActivity {
         }
         public String getProductName() {
             return productName;
+        }
+        public String toString(){
+            return (barcode + "" + productName);
         }
     }
 }

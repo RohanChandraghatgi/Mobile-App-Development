@@ -1,4 +1,4 @@
-package com.example.ingrediantchecker;
+package com.example.ingredientchecker;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
 

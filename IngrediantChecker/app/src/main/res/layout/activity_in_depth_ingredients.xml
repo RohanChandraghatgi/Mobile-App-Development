@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#235016"
+    tools:context=".InDepthIngredients">
+
+    <TextView
+        android:id="@+id/id_indepth_textView_ProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/open_sans_light"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#DCFFFD"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.127" />
+
+    <Button
+        android:id="@+id/id_indepth_button_Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#DCFFFD"
+        android:fontFamily="@font/open_sans_light"
+        android:text="Back"
+        android:textColor="#235016"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01999998" />
+
+    <TextView
+        android:id="@+id/id_indepth_textView_Barcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/open_sans_light"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#DCFFFD"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_indepth_textView_ProductName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/id_indepth_textView_ProductName"
+        app:layout_constraintTop_toBottomOf="@+id/id_indepth_textView_ProductName"
+        app:layout_constraintVertical_bias="0.01999998" />
+
+    <TextView
+        android:id="@+id/id_indepth_textView_Ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/open_sans_light"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#DCFFFD"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_indepth_textView_Additives"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/id_indepth_textView_Additives"
+        app:layout_constraintTop_toBottomOf="@+id/id_indepth_textView_Additives"
+        app:layout_constraintVertical_bias="0.07999998" />
+
+    <TextView
+        android:id="@+id/id_indepth_textView_Allergens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/open_sans_light"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#FF1D15"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_indepth_textView_Barcode"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/id_indepth_textView_ProductName"
+        app:layout_constraintTop_toBottomOf="@+id/id_indepth_textView_ProductName"
+        app:layout_constraintVertical_bias="0.07999998" />
+
+    <TextView
+        android:id="@+id/id_indepth_textView_Additives"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/open_sans_light"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#FF1D15"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_indepth_textView_Allergens"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/id_indepth_textView_Allergens"
+        app:layout_constraintTop_toBottomOf="@+id/id_indepth_textView_Allergens"
+        app:layout_constraintVertical_bias="0.04000002" />
+
+    <WebView
+        android:id="@+id/id_webView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_spinner" />
+
+    <Spinner
+        android:id="@+id/id_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/id_indepth_textView_Ingredients"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/id_indepth_textView_Ingredients"
+        app:layout_constraintTop_toBottomOf="@+id/id_indepth_textView_Ingredients"
+        app:layout_constraintVertical_bias="0.04000002" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
